@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>慢境 · 麻黄梁艺术家酒店</title>
+<style>
+/* ========== Design Tokens ========== */
+:root {
+  --bg-primary: #F4F0EA;
+  --bg-card: #E9E2D8;
+  --text-primary: #3C342C;
+  --text-secondary: #6B5F55;
+  --accent: #A8673A;
+  --accent-hover: #8F562F;
+  --control: #2D2D2D;
+  --overlay-dark: rgba(0,0,0,0.35);
+  --overlay-light: rgba(244,240,234,0.15);
+  --font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --nav-height: 72px;
+  --safe-bottom: env(safe-area-inset-bottom, 8px);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-duration: 0.7s;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  width: 100%;
+  font-family: var(--font-family);
+  background: #1a1613;
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* ========== Phone Frame (desktop only) ========== */
+.phone-frame {
+  width: 390px;
+  height: 844px;
+  background: var(--bg-primary);
+  border-radius: 44px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.dynamic-island {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 126px;
+  height: 36px;
+  background: #1a1613;
+  border-radius: 20px;
+  z-index: 100;
+}
+
+/* ========== Acts Container ========== */
+.acts-container {
+  flex: 1;
+  position: relative;
+  margin-top: 48px;
+  overflow: hidden;
+}
+
+.act {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0);
+  transition: none;
+  z-index: 1;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.act.active {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* ========== Act Counter ========== */
+.act-counter {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--text-secondary);
+  font-weight: 300;
+  z-index: 10;
+  opacity: 0.5;
+  transition: opacity 0.4s ease;
+}
+
+/* ========== Parallax Layers ========== */
+.act-bg {
+  position: absolute;
+  inset: -20px;
+  z-index: 0;
+  will-change: transform;
+}
+
+.act-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px 28px;
+  padding: 24px 28px env(safe-area-inset-bottom, 24px);
+  will-change: transform;
+}
+
+/* ========== ACT 0: 开幕 ========== */
+.act-0 .act-bg {
+  background: url('poster-hero.jpg') center 30% / cover no-repeat;
+}
+
+.act-0 .act-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-dark);
+}
+
+.act-0 .act-content {
+  color: #fff;
+  justify-content: space-between;
+  padding: 64px 28px 24px;
+}
+
+.act-0-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.act-0 .brand-sub {
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 12px;
+  font-weight: 300;
+  text-align: center;
+}
+
+.act-0 .home-title {
+  font-size: 38px;
+  font-weight: 200;
+  letter-spacing: 0.6em;
+  color: #fff;
+  margin-bottom: 4px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.act-0 .home-title-en {
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.35em;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.act-0 .home-desc {
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255,255,255,0.6);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+/* Identity */
+.identity-section {
+  width: 100%;
+}
+
+.identity-label {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.identity-cards {
+  display: flex;
+  gap: 10px;
+}
+
+.identity-card {
+  flex: 1;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 16px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.35s var(--ease-out);
+  position: relative;
+}
+
+.identity-card:active {
+  transform: scale(0.96);
+}
+
+.identity-card.selected {
+  background: rgba(255,255,255,0.12);
+  border-color: var(--accent);
+  box-shadow: 0 6px 20px rgba(168,103,58,0.2);
+}
+
+.identity-card svg {
+  width: 24px; height: 24px;
+  stroke: rgba(255,255,255,0.7);
+  fill: none;
+  stroke-width: 1.5;
+  margin-bottom: 6px;
+}
+
+.identity-card.selected svg { stroke: var(--accent); }
+
+.identity-card .label {
+  font-size: 13px;
+  color: #fff;
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+
+.identity-card .sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+  font-weight: 300;
+}
+
+.identity-check {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.35s var(--ease-out);
+}
+
+.identity-card.selected .identity-check {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.identity-check svg {
+  width: 8px; height: 8px;
+  stroke: #fff !important;
+  stroke-width: 2.5;
+}
+
+/* ========== ACT 1: 游线 (全屏卡片左右滑动) ========== */
+.act-1 .act-content {
+  padding: 0;
+}
+
+.route-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1a1613;
+}
+
+.route-scroll {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.route-scroll::-webkit-scrollbar { display: none; }
+
+.route-card {
+  flex: 0 0 100%;
+  height: 100%;
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+  background: #1a1613;
+}
+
+.route-card-img {
+  position: absolute;
+  inset: -16px;
+  background-size: cover;
+  background-position: center;
+  will-change: transform;
+  transition: none;
+}
+
+.route-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, transparent 30%, transparent 60%, rgba(0,0,0,0.55) 100%);
+}
+
+.route-card-label {
+  position: absolute;
+  top: 56px;
+  left: 24px;
+  right: 24px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.route-card-sub {
+  font-size: 10px;
+  letter-spacing: 0.35em;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 2px;
+  font-weight: 300;
+}
+
+.route-card-name {
+  font-size: 28px;
+  font-weight: 200;
+  letter-spacing: 0.25em;
+  color: #fff;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+}
+
+.route-card-bottom {
+  position: absolute;
+  bottom: 28px;
+  left: 24px;
+  right: 24px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.route-card-num {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.35);
+  font-weight: 300;
+  margin-bottom: 3px;
+}
+
+.route-card-desc {
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  max-width: 85%;
+}
+
+.route-flow-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 10;
+}
+
+.route-flow-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transition: all 0.35s var(--ease-out);
+}
+
+.route-flow-dot.active {
+  background: #fff;
+  width: 18px;
+  border-radius: 2px;
+  opacity: 0.8;
+}
+
+.route-back {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.08);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  z-index: 10;
+}
+
+.route-back:active { background: rgba(0,0,0,0.5); }
+
+.route-back svg {
+  width: 16px; height: 16px;
+  stroke: #fff;
+  fill: none;
+  stroke-width: 2;
+}
+
+.flow-switch {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  display: flex;
+  gap: 3px;
+  background: rgba(0,0,0,0.25);
+  padding: 3px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10;
+}
+
+.flow-btn {
+  padding: 5px 10px;
+  border: none;
+  background: transparent;
+  font-size: 9px;
+  color: rgba(255,255,255,0.35);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+.flow-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ========== ACT 2: 艺术 ========== */
+.act-2 .act-content {
+  padding: 16px 0 10px;
+}
+
+.act-2 .act-header {
+  padding: 0 20px 8px;
+}
+
+.act-2 .act-header h2 {
+  font-size: 22px;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  color: var(--text-primary);
+}
+
+.act-2 .act-header p {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 300;
+  margin-top: 2px;
+  letter-spacing: 0.05em;
+}
+
+.art-scroll-wrap {
+  position: relative;
+  margin: 0 -20px;
+  padding: 4px 0 0;
+  overflow: visible;
+}
+
+.art-scroll {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding: 8px 20px;
+  gap: 24px;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+
+.art-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.art-card {
+  flex-shrink: 0;
+  width: 180px;
+  height: 200px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+  transition: none;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.art-card-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.art-card-text {
+  display: none;
+}
+
+/* ===== Art text panel (fixed below scroll, follows active card) ===== */
+.art-text-panel {
+  margin: 8px 24px 0;
+  padding: 10px 0 4px;
+  min-height: 56px;
+  text-align: center;
+  position: relative;
+}
+
+.art-text-title {
+  font-family: 'Georgia', 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  opacity: 1;
+  transition: opacity 0.18s ease;
+}
+
+.art-text-title.fade {
+  opacity: 0;
+}
+
+.art-text-desc {
+  font-family: 'Georgia', 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  opacity: 1;
+  transition: opacity 0.18s ease;
+}
+
+.art-text-desc.fade {
+  opacity: 0;
+}
+
+/* Art scroll dots */
+.art-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 4px 0 2px;
+}
+
+.art-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--text-secondary);
+  opacity: 0.2;
+  transition: all 0.35s var(--ease-out);
+  flex-shrink: 0;
+}
+
+.art-dot.active {
+  opacity: 1;
+  background: var(--accent);
+  width: 22px;
+  border-radius: 3px;
+  opacity: 0.9;
+}
+
+/* ========== ACT 3: 居所 ========== */
+.act-3 .act-content {
+  padding: 20px 20px 16px;
+}
+
+.act-3 .act-header {
+  margin-bottom: 14px;
+}
+
+.act-3 .act-header h2 {
+  font-size: 22px;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  color: var(--text-primary);
+}
+
+.act-3 .act-header p {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 300;
+  margin-top: 2px;
+  letter-spacing: 0.05em;
+}
+
+.stay-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.stay-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.25s ease;
+}
+
+.stay-card:active {
+  transform: scale(0.97);
+}
+
+.stay-card-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.stay-card:hover .stay-card-img {
+  transform: scale(1.05);
+}
+
+.stay-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.05) 100%);
+  z-index: 1;
+}
+
+.stay-card-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 20px 18px;
+  z-index: 2;
+  color: #fff;
+}
+
+.stay-card-body h4 {
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+}
+
+.stay-card-body .stay-desc {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.stay-specs {
+  font-size: 10px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.04em;
+  margin-bottom: 3px;
+  line-height: 1.5;
+}
+
+.stay-window {
+  font-size: 10px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.stay-card-features {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.stay-card-tag {
+  font-size: 9px;
+  padding: 3px 10px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 0;
+  color: rgba(255,255,255,0.7);
+  letter-spacing: 0.08em;
+  font-weight: 300;
+  background: rgba(0,0,0,0.15);
+}
+
+.stay-card-price {
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: var(--accent);
+}
+
+.stay-card-price small {
+  font-size: 10px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 300;
+}
+
+.stay-book-btn {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  padding: 6px 18px;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: var(--font-family);
+  z-index: 3;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.stay-book-btn:active {
+  transform: scale(0.95);
+  background: rgba(255,255,255,0.25);
+}
+
+/* ========== ACT 4: 体验 ========== */
+.act-4 .act-content {
+  padding: 20px 20px 16px;
+}
+
+.act-4 .act-header {
+  margin-bottom: 10px;
+}
+
+.act-4 .act-header h2 {
+  font-size: 22px;
+  font-weight: 200;
+  letter-spacing: 0.35em;
+  color: var(--text-primary);
+}
+
+.activity-tags {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.activity-tags::-webkit-scrollbar { display: none; }
+
+.tag-btn {
+  flex-shrink: 0;
+  padding: 5px 14px;
+  border: 1px solid rgba(60,52,44,0.1);
+  background: transparent;
+  font-size: 10px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-family);
+  letter-spacing: 0.05em;
+}
+
+.tag-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.tag-btn:active:not(.active) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.activity-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+}
+
+.activity-list::-webkit-scrollbar { display: none; }
+
+.activity-item {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: var(--bg-card);
+  transition: transform 0.25s ease;
+}
+
+.activity-item:active {
+  transform: scale(0.98);
+}
+
+.activity-item-img {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.6s var(--ease-out);
+}
+
+.activity-item:hover .activity-item-img {
+  transform: scale(1.05);
+}
+
+/* Gradient overlay for text readability */
+.activity-item-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.05) 100%);
+  z-index: 1;
+}
+
+.activity-item-body {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px 20px 18px;
+  z-index: 2;
+  color: #fff;
+}
+
+.activity-item-body h4 {
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+}
+
+.activity-item-body p {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.05em;
+  line-height: 1.5;
+}
+
+/* ========== ACT 5: 落幕 ========== */
+.act-5 {
+  background: #2D2D2D;
+}
+
+.act-5 .act-content {
+  color: #fff;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 28px;
+  gap: 0;
+}
+
+.footer-brand-icon {
+  width: 48px; height: 48px;
+  stroke: rgba(255,255,255,0.3);
+  fill: none;
+  stroke-width: 1;
+  margin-bottom: 16px;
+}
+
+.footer-hotel-name {
+  font-size: 20px;
+  font-weight: 200;
+  letter-spacing: 0.4em;
+  margin-bottom: 4px;
+  text-indent: 0.4em;
+}
+
+.footer-hotel-en {
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 24px;
+}
+
+.footer-divider {
+  width: 30px;
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+  margin-bottom: 24px;
+}
+
+.footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.footer-info-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.05em;
+}
+
+.footer-info-item svg {
+  width: 14px; height: 14px;
+  stroke: rgba(255,255,255,0.3);
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.footer-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: rgba(255,255,255,0.7);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: var(--font-family);
+}
+
+.footer-cta:active {
+  background: rgba(255,255,255,0.06);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.footer-cta svg {
+  width: 12px; height: 12px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.footer-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.footer-avatar {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.footer-avatar svg {
+  width: 26px; height: 26px;
+  stroke: rgba(255,255,255,0.3);
+  fill: none;
+  stroke-width: 1.2;
+}
+
+.footer-profile h3 {
+  font-size: 15px;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  margin-bottom: 2px;
+}
+
+.footer-profile .sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  font-weight: 300;
+}
+
+.footer-nav-hint {
+  font-size: 10px;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.3em;
+  margin-top: 20px;
+}
+
+/* ========== Background Variants ========== */
+.bg-earth-1 { background: linear-gradient(135deg, #C4B5A0, #A6927B); }
+.bg-earth-2 { background: linear-gradient(135deg, #D4C9BA, #B8A894); }
+.bg-earth-3 { background: linear-gradient(135deg, #B8A894, #8C7A66); }
+.bg-earth-4 { background: linear-gradient(135deg, #A6927B, #7A6854); }
+.bg-earth-5 { background: linear-gradient(135deg, #8C7A66, #5C4D3C); }
+.bg-earth-6 { background: linear-gradient(135deg, #DBCFC0, #C4B5A0); }
+.bg-earth-7 { background: linear-gradient(135deg, #C4B5A0, #7A6854); }
+.bg-warm-1 { background: linear-gradient(135deg, #E8DDD0, #D4C9BA); }
+.bg-warm-2 { background: linear-gradient(135deg, #D4C9BA, #C4B5A0); }
+.bg-accent-1 { background: linear-gradient(135deg, #A8673A, #8C562E); }
+.route-bg-1 { background: linear-gradient(160deg, #C4B5A0 0%, #8C7A66 50%, #5C4D3C 100%); }
+.route-bg-2 { background: linear-gradient(160deg, #D4C9BA 0%, #B8A894 40%, #7A6854 100%); }
+.route-bg-3 { background: linear-gradient(160deg, #B8A894 0%, #8C7A66 50%, #6B5F55 100%); }
+.route-bg-4 { background: linear-gradient(160deg, #C4B5A0 0%, #A6927B 40%, #5C4D3C 100%); }
+.route-bg-5 { background: linear-gradient(160deg, #D4C9BA 0%, #B8A894 50%, #7A6854 100%); }
+
+/* ========== Bottom Navigation ========== */
+.bottom-nav {
+  height: var(--nav-height);
+  background: rgba(244,240,234,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(60,52,44,0.08);
+  display: flex;
+  padding: 4px 0 calc(4px + var(--safe-bottom));
+  flex-shrink: 0;
+  position: relative;
+  z-index: 50;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  padding: 2px 0;
+}
+
+.nav-item svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--control);
+  fill: none;
+  stroke-width: 1.5;
+  transition: stroke 0.25s ease;
+}
+
+.nav-item span {
+  font-size: 9px;
+  letter-spacing: 0.03em;
+  color: var(--control);
+  transition: color 0.25s ease;
+}
+
+.nav-item.active svg { stroke: var(--accent); }
+.nav-item.active span { color: var(--accent); font-weight: 500; }
+
+/* ========== Confirm Dialog ========== */
+.confirm-dialog {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.35s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.confirm-dialog.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.confirm-box {
+  background: var(--bg-primary);
+  padding: 32px 28px 24px;
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+  transform: translateY(20px) scale(0.96);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.confirm-dialog.show .confirm-box {
+  transform: translateY(0) scale(1);
+}
+
+.confirm-box h3 {
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.confirm-box .confirm-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 300;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.confirm-box .confirm-btns {
+  display: flex;
+  gap: 10px;
+}
+
+.confirm-box .confirm-btns button {
+  flex: 1;
+  padding: 10px 0;
+  border: none;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: all 0.25s ease;
+}
+
+.confirm-box .btn-confirm-yes {
+  background: var(--accent);
+  color: #fff;
+}
+
+.confirm-box .btn-confirm-yes:active {
+  background: var(--accent-hover);
+  transform: scale(0.97);
+}
+
+.confirm-box .btn-confirm-no {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid rgba(60,52,44,0.12);
+}
+
+.confirm-box .btn-confirm-no:active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ========== Booking Modal ========== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 200;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.35s ease;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-sheet {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--bg-primary);
+  border-radius: 0;
+  z-index: 201;
+  transform: translateY(100%);
+  transition: transform 0.45s var(--ease-out);
+  padding: 20px 24px calc(20px + env(safe-area-inset-bottom, 8px));
+  max-height: 80vh;
+  overflow-y: auto;
+  font-family: var(--font-family);
+}
+
+.modal-overlay.show .modal-sheet {
+  transform: translateY(0);
+}
+
+.modal-handle {
+  width: 32px; height: 3px;
+  background: rgba(60,52,44,0.15);
+  border-radius: 2px;
+  margin: 0 auto 14px;
+}
+
+.modal-title {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.modal-sub {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.modal-field {
+  margin-bottom: 16px;
+}
+
+.modal-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.date-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.date-input {
+  flex: 1;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border: 1px solid rgba(60,52,44,0.08);
+  border-radius: 0;
+  font-size: 13px;
+  color: var(--text-primary);
+  font-family: var(--font-family);
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+}
+
+.date-input:focus { border-color: var(--accent); }
+
+.date-input::-webkit-calendar-picker-indicator {
+  opacity: 0.35;
+  cursor: pointer;
+}
+
+.guest-selector {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 14px;
+  background: var(--bg-card);
+  border-radius: 0;
+}
+
+.guest-btn {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(60,52,44,0.15);
+  background: transparent;
+  font-size: 15px;
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-family: var(--font-family);
+}
+
+.guest-btn:active {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.guest-count {
+  font-size: 15px;
+  font-weight: 400;
+  min-width: 20px;
+  text-align: center;
+}
+
+.modal-confirm {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 0;
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.25s var(--ease-out);
+  font-family: var(--font-family);
+  margin-top: 8px;
+}
+
+.modal-confirm:active {
+  transform: scale(0.97);
+}
+
+/* ========== Toast ========== */
+.toast {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: var(--control);
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 999;
+  opacity: 0;
+  transition: all 0.4s var(--ease-out);
+  font-family: var(--font-family);
+  letter-spacing: 0.05em;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  pointer-events: none;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast svg {
+  width: 14px; height: 14px;
+}
+
+/* ========== Responsive — Mobile First ========== */
+
+/* Mobile: full screen, no frame */
+@media (max-width: 820px) {
+  body {
+    display: block;
+    background: var(--bg-primary);
+  }
+  .phone-frame {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .dynamic-island { display: none; }
+  .acts-container { margin-top: 0; }
+}
+
+/* Tablet: full screen */
+@media (min-width: 441px) and (max-width: 820px) {
+  .phone-frame {
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .dynamic-island { display: none; }
+  .acts-container { margin-top: 0; }
+}
+
+/* Desktop: centered phone frame */
+@media (min-width: 821px) {
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #1a1613;
+  }
+  .phone-frame { border-radius: 48px; }
+}
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <div class="dynamic-island"></div>
+
+  <div class="acts-container" id="actsContainer">
+
+    <!-- Act 0: 开幕 · 首页 -->
+    <div class="act act-0 active" id="act-0">
+      <div class="act-bg"></div>
+      <div class="act-content">
+        <div class="act-0-top">
+          <div class="brand-sub">—— 黄 土 地 貌 · 艺 术 酒 店 ——</div>
+          <h1 class="home-title">慢 境</h1>
+          <div class="home-title-en">Slow Realm Art Hotel</div>
+          <p class="home-desc">以麻黄梁黄土地貌为基底<br>构建沉浸式的艺术旅居体验</p>
+        </div>
+        <div class="identity-section">
+          <div class="identity-label">— 选 择 你 的 体 验 方 式 —</div>
+          <div class="identity-cards">
+            <div class="identity-card selected" onclick="selectIdentity(this);confirmIdentity()">
+              <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+              <div class="label">住宿流线</div>
+              <div class="sub">艺术家 · 单人旅居</div>
+              <div class="identity-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+            </div>
+            <div class="identity-card" onclick="selectIdentity(this);confirmIdentity()">
+              <svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l7-5 7 5v14" stroke-linecap="round"/></svg>
+              <div class="label">观景流线</div>
+              <div class="sub">观光游客 · 团体</div>
+              <div class="identity-check"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Act 1: 游线 · 路线 -->
+    <div class="act act-1" id="act-1">
+      <div class="act-content">
+        <div class="route-wrapper">
+          <div class="route-scroll" id="routeScroll"></div>
+          <button class="route-back" onclick="event.stopPropagation();prevAct()">
+            <svg viewBox="0 0 24 24"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+          </button>
+          <div class="flow-switch">
+            <button class="flow-btn active" onclick="event.stopPropagation();setFlow('A')">住宿流线</button>
+            <button class="flow-btn" onclick="event.stopPropagation();setFlow('B')">观景流线</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Act 2: 陈列 · 艺术 -->
+    <div class="act act-2" id="act-2">
+      <div class="act-content">
+        <div class="act-header">
+          <h2>艺术</h2>
+          <p>Art · 黄土地貌中的艺术空间</p>
+        </div>
+        <div class="art-scroll-wrap">
+          <div class="art-scroll" id="artScroll">
+            <div class="art-card" data-title="艺术展" data-desc="汇聚本地艺术家作品，展现黄土高原的独特艺术语言">
+              <div class="art-card-img" style="background-image:url(images/art/art-艺术展.jpg);background-size:cover;background-position:center;"></div>
+            </div>
+            <div class="art-card" data-title="大地雕塑" data-desc="巨型陶土雕塑与黄土地貌的对话，户外永久陈列">
+              <div class="art-card-img" style="background-image:url(images/art/art-大地雕塑.jpg);background-size:cover;background-position:center;"></div>
+            </div>
+            <div class="art-card" data-title="艺术画作" data-desc="当代艺术家以黄土为主题创作的绘画作品">
+              <div class="art-card-img" style="background-image:url(images/art/art-艺术画作.jpg);background-size:cover;background-position:center;"></div>
+            </div>
+            <div class="art-card" data-title="石雕" data-desc="陕北石雕工艺，刻在石头上的历史记忆">
+              <div class="art-card-img" style="background-image:url(images/art/art-石雕.jpg);background-size:cover;background-position:center;"></div>
+            </div>
+            <div class="art-card" data-title="剪纸" data-desc="陕北民间剪纸艺术，指尖上的黄土风情">
+              <div class="art-card-img" style="background-image:url(images/art/art-剪纸.jpg);background-size:cover;background-position:center;"></div>
+            </div>
+            <div class="art-card" data-title="泥塑" data-desc="取土麻黄梁，手工捏制的黄土泥塑艺术">
+              <div class="art-card-img" style="background-image:url(images/art/art-泥塑.jpg);background-size:cover;background-position:center;"></div>
+            </div>
+            <div class="art-card" data-title="柳编" data-desc="陕北柳编技艺，自然材料编织的生活美学">
+              <div class="art-card-img" style="background-image:url(images/art/art-柳编.jpg);background-size:cover;background-position:center;"></div>
+            </div>
+            <div class="art-card" data-title="面花" data-desc="陕北面花艺术，可食用的民间工艺瑰宝">
+              <div class="art-card-img" style="background-image:url(images/art/art-面花.jpg);background-size:cover;background-position:center;"></div>
+            </div>
+            <div class="art-card" data-title="腰鼓" data-desc="黄土高原上的激昂鼓点，陕北腰鼓文化">
+              <div class="art-card-img" style="background-image:url(images/art/art-腰鼓.jpg);background-size:cover;background-position:center;"></div>
+            </div>
+            <div class="art-card" data-title="刺绣" data-desc="陕北传统刺绣，一针一线绣出黄土故事">
+              <div class="art-card-img" style="background-image:url(images/art/art-刺绣.jpg);background-size:cover;background-position:center;"></div>
+            </div>
+          </div>
+          <div class="art-text-panel">
+            <div class="art-text-title" id="artTextTitle">艺术展</div>
+            <div class="art-text-desc" id="artTextDesc">汇聚本地艺术家作品，展现黄土高原的独特艺术语言</div>
+          </div>
+          <div class="art-dots" id="artDots"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Act 3: 栖息 · 住宿 -->
+    <div class="act act-3" id="act-3">
+      <div class="act-content">
+        <div class="act-header">
+          <h2>住宿</h2>
+          <p>Stay · 栖息于黄土之上</p>
+        </div>
+        <div class="stay-list">
+          <div class="stay-card">
+            <div class="stay-card-img" style="background-image:url(images/rooms/标间.jpg);background-size:cover;background-position:center;"></div>
+            <div class="stay-card-overlay"></div>
+            <div class="stay-card-body">
+              <h4>标准间</h4>
+              <div class="stay-desc">峡谷视野 · 独享静谧时光</div>
+              <div class="stay-specs">43间 · 35m² 总面积 · 30m² 室内 · 5m² 阳台</div>
+              <div class="stay-window">1m 常规窗</div>
+              <div class="stay-card-price">¥680 <small>/ 晚</small></div>
+            </div>
+            <button class="stay-book-btn" onclick="event.stopPropagation();bookRoom('标准间')">预订</button>
+          </div>
+          <div class="stay-card">
+            <div class="stay-card-img" style="background-image:url(images/rooms/迷你套房.jpg);background-size:cover;background-position:center;"></div>
+            <div class="stay-card-overlay"></div>
+            <div class="stay-card-body">
+              <h4>迷你套房</h4>
+              <div class="stay-desc">精巧空间 · 设计师精选户型</div>
+              <div class="stay-specs">8间 · 45m² 总面积 · 35m² 室内 · 10m² 阳台</div>
+              <div class="stay-window">3m 全景窗</div>
+              <div class="stay-card-price">¥880 <small>/ 晚</small></div>
+            </div>
+            <button class="stay-book-btn" onclick="event.stopPropagation();bookRoom('迷你套房')">预订</button>
+          </div>
+          <div class="stay-card">
+            <div class="stay-card-img" style="background-image:url(images/rooms/豪华套房.jpg);background-size:cover;background-position:center;"></div>
+            <div class="stay-card-overlay"></div>
+            <div class="stay-card-body">
+              <h4>豪华套房</h4>
+              <div class="stay-desc">全景落地窗 · 极致景观享受</div>
+              <div class="stay-specs">9间 · 75m² 总面积 · 65m² 室内 · 10m² 阳台</div>
+              <div class="stay-window">3m 全景窗</div>
+              <div class="stay-card-price">¥1,280 <small>/ 晚</small></div>
+            </div>
+            <button class="stay-book-btn" onclick="event.stopPropagation();bookRoom('豪华套房')">预订</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Act 4: 体验 · 活动 -->
+    <div class="act act-4" id="act-4">
+      <div class="act-content">
+        <div class="act-header">
+          <h2>活动与体验</h2>
+        </div>
+        <div class="activity-tags" id="activityTags">
+          <span class="tag-btn active" data-tag="all" onclick="filterActivity(this)">全部</span>
+          <span class="tag-btn" data-tag="dining" onclick="filterActivity(this)">餐饮</span>
+          <span class="tag-btn" data-tag="leisure" onclick="filterActivity(this)">休闲</span>
+          <span class="tag-btn" data-tag="salon" onclick="filterActivity(this)">艺术沙龙</span>
+          <span class="tag-btn" data-tag="wellness" onclick="filterActivity(this)">康体</span>
+          <span class="tag-btn" data-tag="celebration" onclick="filterActivity(this)">夜间活动</span>
+        </div>
+        <div class="activity-list" id="activityList"></div>
+      </div>
+    </div>
+
+    <!-- Act 5: 落幕 · Footer -->
+    <div class="act act-5" id="act-5">
+      <div class="act-content">
+        <div class="footer-profile">
+          <div class="footer-avatar">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-8 8-8s8 4 8 8"/></svg>
+          </div>
+          <h3>旅居者</h3>
+          <div class="sub">探索黄土之上的艺术之旅</div>
+        </div>
+
+        <svg class="footer-brand-icon" viewBox="0 0 24 24">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+        </svg>
+        <div class="footer-hotel-name">慢 境</div>
+        <div class="footer-hotel-en">Slow Realm Art Hotel</div>
+        <div class="footer-divider"></div>
+
+        <div class="footer-info">
+          <div class="footer-info-item">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            榆林 · 麻黄梁地质公园
+          </div>
+          <div class="footer-info-item">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+            0912 · 8888 6666
+          </div>
+        </div>
+
+        <button class="footer-cta" onclick="showToast('艺术家驻留计划 · 申请已提交')">
+          艺术家驻留计划 申请 →
+          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <div class="footer-nav-hint">↓ 点击下方导航浏览各幕</div>
+      </div>
+    </div>
+
+    <!-- Act Counter -->
+    <div class="act-counter" id="actCounter">01 / 06</div>
+
+  </div><!-- /acts-container -->
+
+  <!-- Confirm Dialog -->
+  <div class="confirm-dialog" id="confirmDialog">
+    <div class="confirm-box">
+      <h3 id="confirmTitle">确认选择</h3>
+      <div class="confirm-desc" id="confirmDesc">确认选择此体验方式吗？</div>
+      <div class="confirm-btns">
+        <button class="btn-confirm-no" onclick="closeConfirm()">取消</button>
+        <button class="btn-confirm-yes" onclick="doConfirm()">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Booking Modal -->
+  <div class="modal-overlay" id="bookingModal" onclick="closeBooking()">
+    <div class="modal-sheet" onclick="event.stopPropagation()">
+      <div class="modal-handle"></div>
+      <div class="modal-title" id="modalRoomName">预订客房</div>
+      <div class="modal-sub">选择入住信息</div>
+      <div class="modal-field">
+        <label>入住日期</label>
+        <div class="date-input-group">
+          <input type="date" class="date-input" id="checkInDate">
+          <input type="date" class="date-input" id="checkOutDate">
+        </div>
+      </div>
+      <div class="modal-field">
+        <label>住客人数</label>
+        <div class="guest-selector">
+          <button class="guest-btn" onclick="changeGuests(-1)">−</button>
+          <span class="guest-count" id="guestCount">1</span>
+          <button class="guest-btn" onclick="changeGuests(1)">+</button>
+          <span style="flex:1;text-align:right;font-size:12px;color:var(--text-secondary);">位住客</span>
+        </div>
+      </div>
+      <button class="modal-confirm" onclick="confirmBooking()">提交预订</button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav">
+    <div class="nav-item active" data-act="0" onclick="goToAct(0)">
+      <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+      <span>首页</span>
+    </div>
+    <div class="nav-item" data-act="1" onclick="goToAct(1)">
+      <svg viewBox="0 0 24 24"><path d="M3 12c0-4 2-7 5-7s5 3 5 7-2 7-5 7-5-3-5-7z"/><path d="M13 12c0-4 3-7 6-7s4 3 4 7-1 7-4 7-6-3-6-7z"/></svg>
+      <span>路线</span>
+    </div>
+    <div class="nav-item" data-act="2" onclick="goToAct(2)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/></svg>
+      <span>艺术</span>
+    </div>
+    <div class="nav-item" data-act="3" onclick="goToAct(3)">
+      <svg viewBox="0 0 24 24"><path d="M3 15h18v5a1 1 0 01-1 1H4a1 1 0 01-1-1v-5z"/><path d="M3 10l9-7 9 7"/><path d="M8 15v-3"/><path d="M16 15v-3"/></svg>
+      <span>住宿</span>
+    </div>
+    <div class="nav-item" data-act="4" onclick="goToAct(4)">
+      <svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.2H22l-6 4.8 2.4 7.2L12 16l-6.4 5.2L8 14l-6-4.8h7.6z"/></svg>
+      <span>活动</span>
+    </div>
+    <div class="nav-item" data-act="5" onclick="goToAct(5)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-8 8-8s8 4 8 8"/></svg>
+      <span>我的</span>
+    </div>
+  </nav>
+</div>
+
+<script>
+// ========== Act Transition System ==========
+const TOTAL_ACTS = 6;
+let currentAct = 0;
+let isTransitioning = false;
+
+function goToAct(targetIndex) {
+  if (isTransitioning) return;
+  if (targetIndex === currentAct) return;
+  if (targetIndex < 0 || targetIndex >= TOTAL_ACTS) return;
+
+  isTransitioning = true;
+  const direction = targetIndex > currentAct ? 1 : -1;
+  const currentEl = document.getElementById('act-' + currentAct);
+  const targetEl = document.getElementById('act-' + targetIndex);
+
+  // 1. Set target's starting position (off-screen + invisible)
+  targetEl.style.transition = 'none';
+  targetEl.style.transform = `translateY(${60 * direction}px)`;
+  targetEl.style.opacity = '0';
+  targetEl.style.pointerEvents = 'auto';
+  targetEl.style.zIndex = '3';
+  targetEl.classList.add('active');
+
+  // 2. Force layout
+  void targetEl.offsetHeight;
+
+  // 3. Current fades out + slides away
+  currentEl.style.transition = `all 0.45s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1))`;
+  currentEl.style.transform = `translateY(${-30 * direction}px)`;
+  currentEl.style.opacity = '0';
+
+  // 4. Target fades in + slides into place
+  targetEl.style.transition = `all 0.6s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1))`;
+  targetEl.style.transform = 'translateY(0)';
+  targetEl.style.opacity = '1';
+
+  // 5. Parallax: animate bg layers at different speeds
+  const currentBg = currentEl.querySelector('.act-bg');
+  const targetBg = targetEl.querySelector('.act-bg');
+  if (currentBg) {
+    currentBg.style.transition = `all 0.4s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1))`;
+    currentBg.style.transform = `translateY(${-12 * direction}px)`;
+  }
+  if (targetBg) {
+    targetBg.style.transition = 'none';
+    targetBg.style.transform = `translateY(${15 * direction}px)`;
+    void targetBg.offsetHeight;
+    targetBg.style.transition = `all 0.6s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1))`;
+    targetBg.style.transform = 'translateY(0)';
+  }
+
+  // 6. Cleanup after transition
+  setTimeout(() => {
+    currentEl.style.transition = '';
+    currentEl.style.transform = '';
+    currentEl.style.opacity = '0';
+    currentEl.style.pointerEvents = 'none';
+    currentEl.style.zIndex = '1';
+    currentEl.classList.remove('active');
+    if (currentBg) {
+      currentBg.style.transition = '';
+      currentBg.style.transform = '';
+    }
+
+    targetEl.style.transition = '';
+    targetEl.style.transform = '';
+    targetEl.style.opacity = '1';
+    targetEl.style.pointerEvents = 'auto';
+    targetEl.style.zIndex = '2';
+    if (targetBg) {
+      targetBg.style.transition = '';
+      targetBg.style.transform = '';
+    }
+
+    currentAct = targetIndex;
+    isTransitioning = false;
+    updateNav();
+    updateCounter();
+  }, 700);
+}
+
+function prevAct() {
+  goToAct(currentAct - 1);
+}
+
+function nextAct() {
+  goToAct(currentAct + 1);
+}
+
+function updateNav() {
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', parseInt(n.dataset.act) === currentAct);
+  });
+}
+
+function updateCounter() {
+  const counter = document.getElementById('actCounter');
+  const num = String(currentAct + 1).padStart(2, '0');
+  counter.textContent = `${num} / ${String(TOTAL_ACTS).padStart(2, '0')}`;
+}
+
+// ========== Wheel Navigation ==========
+let lastWheelTime = 0;
+document.getElementById('actsContainer').addEventListener('wheel', e => {
+  const now = Date.now();
+  if (now - lastWheelTime < 900) return;
+  if (isTransitioning) return;
+
+  if (e.deltaY > 25) {
+    if (currentAct === 0 || currentAct === 1 || currentAct === 2 || currentAct === 4) return;
+    goToAct(currentAct + 1);
+    lastWheelTime = now;
+  } else if (e.deltaY < -25) {
+    if (currentAct === 1 || currentAct === 4) return;
+    goToAct(currentAct - 1);
+    lastWheelTime = now;
+  }
+}, { passive: true });
+
+// ========== Touch Swipe (vertical → act switch) ==========
+let touchStartY = 0;
+let touchStartX = 0;
+let touchStartTime = 0;
+let touchIsVertical = false;
+
+document.getElementById('actsContainer').addEventListener('touchstart', e => {
+  if (e.touches.length !== 1) return;
+  touchStartY = e.touches[0].clientY;
+  touchStartX = e.touches[0].clientX;
+  touchStartTime = Date.now();
+  touchIsVertical = false;
+}, { passive: true });
+
+document.getElementById('actsContainer').addEventListener('touchmove', e => {
+  if (e.touches.length !== 1 || !touchStartY) return;
+  const dy = Math.abs(e.touches[0].clientY - touchStartY);
+  const dx = Math.abs(e.touches[0].clientX - touchStartX);
+  if (dy > 20 && dy > dx * 1.2) {
+    touchIsVertical = true;
+  }
+}, { passive: true });
+
+document.getElementById('actsContainer').addEventListener('touchend', e => {
+  if (!touchIsVertical) return;
+  const dy = e.changedTouches[0].clientY - touchStartY;
+  const elapsed = Date.now() - touchStartTime;
+  if (isTransitioning) return;
+
+  if (dy < -120 || (dy < -60 && elapsed < 300)) {
+    if (currentAct === 0 || currentAct === 1 || currentAct === 2 || currentAct === 4) return;
+    goToAct(currentAct + 1);
+    touchIsVertical = false;
+  } else if (dy > 120 || (dy > 60 && elapsed < 300)) {
+    if (currentAct === 1 || currentAct === 4) return;
+    goToAct(currentAct - 1);
+    touchIsVertical = false;
+  }
+}, { passive: true });
+
+// ========== Keyboard Navigation ==========
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+    if (currentAct === 0 || currentAct === 1 || currentAct === 2 || currentAct === 4) return; // 首页/路线/艺术/活动禁止跳转
+    e.preventDefault();
+    goToAct(currentAct + 1);
+  } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+    if (currentAct === 1 || currentAct === 4) return;
+    e.preventDefault();
+    goToAct(currentAct - 1);
+  }
+});
+
+// ========== Route: Fullscreen Card Swipe (Apple-style) ==========
+const routeDataA = [
+  { name: '入口', desc: '麻黄梁酒店入口，黄土艺术空间的序章', img: 'images/route/img_0.jpg' },
+  { name: '接待大厅', desc: '宽敞明亮的接待空间，融合本地石材与极简设计', img: 'images/route/img_1.jpg' },
+  { name: '客房电梯', desc: '循着岩层肌理向上，抵达您的专属空间', img: 'images/route/img_2.jpg' },
+  { name: '客房区', desc: '极简舒适的居住空间，窗外即是黄土奇观', img: 'images/route/img_3.jpg' },
+  { name: '餐厅', desc: '本地食材与创意料理的味觉之旅', img: 'images/route/img_4.jpg' },
+  { name: '艺术交流平台', desc: '艺术家与旅人交汇的灵感空间', img: 'images/route/img_5.jpg' },
+  { name: '展厅', desc: '当代艺术展览，与黄土地貌对话', img: 'images/route/img_9.jpg' },
+  { name: '天空露台', desc: '俯瞰麻黄梁全景，天地之间静享慢境', img: 'images/route/img_10.jpg' },
+  { name: '咖啡书吧', desc: '慢下来，一杯咖啡一本好书', img: 'images/route/img_11.jpg' },
+];
+
+const routeDataB = [
+  { name: '入口广场', desc: '麻黄梁地貌的壮丽入口，黄土峡谷初现', img: 'images/route/img_12.jpg' },
+  { name: '观景阶梯', desc: '沿崖壁而建的步道，每一步都是风景', img: 'images/route/img_13.jpg' },
+  { name: '艺术平台', desc: '风雨侵蚀形成的天然大地艺术观景台', img: 'images/route/img_2.jpg' },
+  { name: '共享客厅', desc: '开放式的社交空间，旅人交汇的温暖角落', img: 'images/route/img_4.jpg' },
+  { name: '天空露台', desc: '捕捉黄土高原上最壮丽的日落', img: 'images/route/img_10.jpg' },
+];
+
+let currentFlow = 'A';
+let activeFlowRouteData = routeDataA;
+const routeScroll = document.getElementById('routeScroll');
+let routeParallaxRAF = null;
+const FLOW_DOT_PARENT = '.route-wrapper';
+
+function renderRoute(flow) {
+  const data = flow === 'A' ? routeDataA : routeDataB;
+  activeFlowRouteData = data;
+  routeScroll.innerHTML = data.map((item, i) => `
+    <div class="route-card" data-idx="${i}">
+      <div class="route-card-img" style="background-image:url(${item.img});background-size:cover;background-position:center;"></div>
+      <div class="route-card-overlay"></div>
+      <div class="route-card-label">
+        <div class="route-card-sub">${flow === 'A' ? '住宿流线' : '观景流线'} · ${String(i + 1).padStart(2, '0')}</div>
+        <div class="route-card-name">${item.name}</div>
+      </div>
+      <div class="route-card-bottom">
+        <div class="route-card-num">${String(i + 1).padStart(2, '0')} / ${String(data.length).padStart(2, '0')}</div>
+        <div class="route-card-desc">${item.desc}</div>
+      </div>
+    </div>
+  `).join('');
+  updateRouteFlowDots();
+  updateFlowActiveFlowBtns();
+  initRouteParallax();
+}
+
+function initRouteParallax() {
+  if (routeParallaxRAF) cancelAnimationFrame(routeParallaxRAF);
+  function updateParallax() {
+    const cards = routeScroll.querySelectorAll('.route-card-img');
+    const scrollLeft = routeScroll.scrollLeft;
+    const cw = routeScroll.clientWidth;
+    cards.forEach((img, i) => {
+      const cardLeft = i * cw;
+      const offset = (scrollLeft - cardLeft) / cw;
+      const move = offset * 20;
+      img.style.transform = `translateX(${-move}px)`;
+    });
+    routeParallaxRAF = requestAnimationFrame(updateParallax);
+  }
+  updateParallax();
+}
+
+function updateRouteFlowDots() {
+  let container = document.getElementById('routeFlowDots');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'routeFlowDots';
+    container.className = 'route-flow-dots';
+    document.querySelector(FLOW_DOT_PARENT).appendChild(container);
+  }
+  const data = currentFlow === 'A' ? routeDataA : routeDataB;
+  container.innerHTML = data.map((_, i) => {
+    const active = i === 0 ? ' active' : '';
+    return `<div class="route-flow-dot${active}"></div>`;
+  }).join('');
+}
+
+function updateFlowActiveFlowBtns() {
+  document.querySelectorAll('.flow-btn').forEach((btn, i) => btn.classList.toggle('active', (i === 0 && currentFlow === 'A') || (i === 1 && currentFlow === 'B')));
+  document.querySelectorAll('.identity-card').forEach(c => c.classList.remove('selected'));
+  if (currentFlow === 'A') document.querySelectorAll('.identity-card')[0]?.classList.add('selected');
+  else document.querySelectorAll('.identity-card')[1]?.classList.add('selected');
+  selectedIdentity = currentFlow;
+}
+
+function setFlow(flow) {
+  currentFlow = flow;
+  routeScroll.scrollLeft = 0;
+  renderRoute(flow);
+}
+
+routeScroll.addEventListener('scroll', () => {
+  const cw = routeScroll.clientWidth;
+  if (!cw) return;
+  const idx = Math.round(routeScroll.scrollLeft / cw);
+  const dots = document.querySelectorAll('#routeFlowDots .route-flow-dot');
+  dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+}, { passive: true });
+
+// ========== Activity Data ==========
+const activityData = [
+  { title: '餐厅', tag: 'dining', desc: '慢境融合中餐厅，本地食材的新演绎', img: 'images/activities/餐厅.jpg' },
+  { title: '咖啡区', tag: 'dining', desc: '醇香咖啡与黄土峡谷景观的午后时光', img: 'images/activities/咖啡区.jpg' },
+  { title: '酒吧', tag: 'celebration', desc: '夜幕降临，在高原之上小酌一杯', img: 'images/activities/酒吧.jpg' },
+  { title: '书吧', tag: 'leisure', desc: '阅读空间，书籍与黄土地的安静对话', img: 'images/activities/书吧.jpg' },
+  { title: '休闲区', tag: 'leisure', desc: '舒适的公共空间，旅人交流与休憩', img: 'images/activities/休闲区.jpg' },
+  { title: '展览厅', tag: 'salon', desc: '当代艺术展览空间，大地之上的美学呈现', img: 'images/activities/展览厅.jpg' },
+  { title: '会议室', tag: 'salon', desc: '多功能会议空间，商务与艺术的交汇', img: 'images/activities/会议室.jpg' },
+  { title: '健身房', tag: 'wellness', desc: '配备齐全的健身空间，旅途中的活力补给', img: 'images/activities/健身房.jpg' },
+  { title: '乒乓球室', tag: 'wellness', desc: '室内乒乓球，轻松愉快的运动时光', img: 'images/activities/乒乓球室.jpg' },
+  { title: '台球厅', tag: 'leisure', desc: '优雅台球空间，休闲竞技的乐趣', img: 'images/activities/台球厅.jpg' },
+];
+
+let currentActivityTag = 'all';
+
+function renderActivities(tag) {
+  const list = document.getElementById('activityList');
+  const items = tag === 'all' ? activityData : activityData.filter(a => a.tag === tag);
+  list.innerHTML = items.map(item => `
+    <div class="activity-item" onclick="showToast('${item.title} · 即将开放预订')">
+      <div class="activity-item-img" style="background-image:url(${item.img});background-size:cover;background-position:center;"></div>
+      <div class="activity-item-overlay"></div>
+      <div class="activity-item-body">
+        <h4>${item.title}</h4>
+        <p>${item.desc}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterActivity(el) {
+  document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  currentActivityTag = el.dataset.tag;
+  renderActivities(currentActivityTag);
+}
+
+// ========== Art Gallery: Infinite Loop + Strong Pop ==========
+function initArtGallery() {
+  const scroll = document.getElementById('artScroll');
+  const dots = document.getElementById('artDots');
+  const titleEl = document.getElementById('artTextTitle');
+  const descEl = document.getElementById('artTextDesc');
+  if (!scroll || !dots) return;
+
+  const rawCards = scroll.querySelectorAll('.art-card');
+  const rawData = Array.from(rawCards).map(c => ({
+    title: c.dataset.title,
+    desc: c.dataset.desc,
+    html: c.outerHTML,
+  }));
+
+  // Triple the items for infinite-feel: repeat 3x (A B C A B C A B C)
+  const REPEAT = 3;
+  const totalPerSet = rawData.length;
+  scroll.innerHTML = Array.from({ length: REPEAT }, () => rawData.map(d => d.html).join('')).join('');
+  const cards = scroll.querySelectorAll('.art-card');
+
+  // Build dots (show only one set)
+  dots.innerHTML = rawData.map((_, i) =>
+    `<div class="art-dot ${i === 0 ? 'active' : ''}"></div>`
+  ).join('');
+  const allDots = dots.querySelectorAll('.art-dot');
+
+  // Center on the middle set initially
+  const cardWidth = 180 + 24; // width + gap
+  const centerSetOffset = totalPerSet * cardWidth;
+  scroll.scrollLeft = centerSetOffset - (scroll.clientWidth / 2 - cardWidth / 2) + 20;
+
+  let rafId = null;
+  let lastActiveIdx = -1;
+
+  function updateGallery() {
+    const cw = scroll.clientWidth;
+    const scrollLeft = scroll.scrollLeft;
+    const maxScroll = scroll.scrollWidth - cw;
+
+    // Loop: jump back when reaching edges
+    const threshold = totalPerSet * cardWidth * 0.4;
+    if (scrollLeft < threshold) {
+      scroll.scrollLeft = scrollLeft + totalPerSet * cardWidth;
+    } else if (scrollLeft > maxScroll - threshold) {
+      scroll.scrollLeft = scrollLeft - totalPerSet * cardWidth;
+    }
+
+    // Find active card (closest to center)
+    const cx = scroll.clientWidth / 2;
+    let activeIdx = 0;
+    let minDist = Infinity;
+
+    cards.forEach((card, i) => {
+      const rect = card.getBoundingClientRect();
+      const cardCenter = rect.left + rect.width / 2;
+      const dist = Math.abs(cardCenter - cx);
+      if (dist < minDist) { minDist = dist; activeIdx = i; }
+    });
+
+    // Map to original index for dots & text
+    const origIdx = activeIdx % totalPerSet;
+
+    // Apply transforms
+    cards.forEach((card, i) => {
+      const rect = card.getBoundingClientRect();
+      const cardCenter = rect.left + rect.width / 2;
+      const dist = Math.abs(cardCenter - cx);
+      const maxDist = cw;
+      let progress = Math.min(dist / maxDist, 1);
+      progress = Math.pow(progress, 0.8);
+
+      if (i === activeIdx) {
+        card.style.transform = 'scale(1.25)';
+        card.style.opacity = '1';
+        card.style.filter = 'brightness(1.05) contrast(1.05)';
+        card.style.zIndex = '3';
+        card.style.boxShadow = '0 12px 40px rgba(0,0,0,0.18)';
+      } else {
+        const s = 1 - progress * 0.5;
+        card.style.transform = `scale(${s})`;
+        card.style.opacity = Math.max(1 - progress * 1.2, 0.08);
+        card.style.filter = `brightness(${Math.max(1 - progress * 0.7, 0.3)}) grayscale(${progress * 0.6})`;
+        card.style.zIndex = '1';
+        card.style.boxShadow = 'none';
+      }
+    });
+
+    // Update text panel & dots
+    if (origIdx !== lastActiveIdx) {
+      lastActiveIdx = origIdx;
+      const item = rawData[origIdx];
+      if (titleEl) {
+        titleEl.classList.add('fade');
+        descEl && descEl.classList.add('fade');
+        clearTimeout(titleEl._textTimer);
+        titleEl._textTimer = setTimeout(() => {
+          titleEl.textContent = item.title;
+          if (descEl) descEl.textContent = item.desc;
+          titleEl.classList.remove('fade');
+          if (descEl) descEl.classList.remove('fade');
+        }, 100);
+      }
+      allDots.forEach((d, i) => d.classList.toggle('active', i === origIdx));
+    }
+  }
+
+  scroll.addEventListener('scroll', () => {
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(updateGallery);
+  }, { passive: true });
+
+  window.addEventListener('resize', updateGallery);
+  updateGallery();
+}
+initArtGallery();
+
+// ========== Identity Selection ==========
+function selectIdentity(el) {
+  document.querySelectorAll('.identity-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const cards = document.querySelectorAll('.identity-card');
+  const idx = Array.from(cards).indexOf(el);
+  selectedIdentity = idx === 0 ? 'A' : 'B';
+  setFlow(selectedIdentity);
+}
+
+// ========== Identity Confirm Dialog ==========
+let pendingConfirmIdentity = null;
+
+function confirmIdentity() {
+  const cards = document.querySelectorAll('.identity-card');
+  const selected = document.querySelector('.identity-card.selected');
+  const idx = Array.from(cards).indexOf(selected);
+  const label = idx === 0 ? '住宿流线' : '观景流线';
+  const desc = idx === 0
+    ? '艺术家 · 单人旅居\n沉浸式艺术住宿体验'
+    : '观光游客 · 团体\n饱览麻黄梁地质奇观';
+
+  document.getElementById('confirmTitle').textContent = label;
+  document.getElementById('confirmDesc').textContent = '确认选择「' + label + '」体验方式？';
+  document.getElementById('confirmDialog').classList.add('show');
+}
+
+function doConfirm() {
+  document.getElementById('confirmDialog').classList.remove('show');
+  goToAct(1);
+}
+
+function closeConfirm() {
+  document.getElementById('confirmDialog').classList.remove('show');
+}
+
+
+// ========== Booking Modal ==========
+let bookingRoomName = '';
+let guestCount = 1;
+
+function bookRoom(name) {
+  if (currentAct !== 3) goToAct(3);
+  bookingRoomName = name;
+  guestCount = 1;
+  document.getElementById('guestCount').textContent = '1';
+  document.getElementById('modalRoomName').textContent = name;
+
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const fmt = d => d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
+  document.getElementById('checkInDate').value = fmt(today);
+  document.getElementById('checkOutDate').value = fmt(tomorrow);
+  document.getElementById('checkInDate').min = fmt(today);
+  document.getElementById('checkOutDate').min = fmt(today);
+
+  document.getElementById('bookingModal').classList.add('show');
+}
+
+function closeBooking() {
+  document.getElementById('bookingModal').classList.remove('show');
+}
+
+function changeGuests(delta) {
+  guestCount = Math.max(1, Math.min(10, guestCount + delta));
+  document.getElementById('guestCount').textContent = guestCount;
+}
+
+function confirmBooking() {
+  const checkIn = document.getElementById('checkInDate').value;
+  const checkOut = document.getElementById('checkOutDate').value;
+  if (!checkIn || !checkOut) {
+    showToast('请选择入住和离店日期');
+    return;
+  }
+  if (new Date(checkOut) <= new Date(checkIn)) {
+    showToast('离店日期需晚于入住日期');
+    return;
+  }
+  closeBooking();
+  showToast(`已预订「${bookingRoomName}」${checkIn} 入住 · ${guestCount}人`);
+}
+
+function showToast(msg) {
+  document.querySelectorAll('.toast').forEach(t => t.remove());
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><span>${msg}</span>`;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 400);
+  }, 2500);
+}
+
+// ========== Init ==========
+renderRoute('A');
+renderActivities('all');
+</script>
+
+</body>
+</html>

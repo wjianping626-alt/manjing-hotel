@@ -1,0 +1,56 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "hotel-mini-app",
+      "description": "慢境酒店小程序 - Vite开发服务器",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "--host", "0.0.0.0", "--port", "5173"],
+      "cwd": "E:/claude/hotel-mini-app",
+      "port": 5173,
+      "autoPort": true
+    },
+    {
+      "name": "art-hotel-figma",
+      "description": "慢境·麻黄梁艺术家酒店 (Figma Make 导出)",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "--port", "5175", "--strictPort"],
+      "cwd": "E:/claude/art-hotel-figma",
+      "port": 5175,
+      "autoPort": true
+    },
+    {
+      "name": "vision-paste",
+      "description": "粘贴图片工具",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["E:/claude/vision-bridge/paste-server/server.js"],
+      "port": 3721
+    },
+    {
+      "name": "design-system",
+      "description": "设计系统HTML预览",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "3457"],
+      "cwd": "E:/claude",
+      "port": 3456,
+      "autoPort": true
+    },
+    {
+      "name": "慢境酒店",
+      "description": "麻黄梁艺术家酒店UI原型",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["-y", "serve", "E:/claude", "-p", "3457"],
+      "cwd": "E:/claude",
+      "port": 3457,
+      "autoPort": true
+    },
+    {
+      "name": "tumushuke-app",
+      "description": "图木舒克文体活动中心 - 手机预览",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["vite", "--host", "0.0.0.0", "--port", "5176"],
+      "cwd": "E:/claude/tumushuke-app",
+      "port": 5176
+    }
+  ]
+}
