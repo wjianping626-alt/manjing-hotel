@@ -882,146 +882,311 @@ html, body {
   line-height: 1.5;
 }
 
-/* ========== ACT 5: 落幕 ========== */
+/* ========== ACT 5: AI 行前规划 ========== */
 .act-5 {
   background: #2D2D2D;
 }
 
 .act-5 .act-content {
   color: #fff;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  padding: 32px 28px;
+  text-align: left;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 28px 24px 20px;
   gap: 0;
+  overflow-y: auto;
 }
 
-.footer-brand-icon {
-  width: 48px; height: 48px;
-  stroke: rgba(255,255,255,0.3);
-  fill: none;
-  stroke-width: 1;
+.ai-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.ai-header h2 {
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  margin-bottom: 4px;
+}
+
+.ai-header .ai-sub {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  font-weight: 300;
+  letter-spacing: 0.1em;
+}
+
+.ai-form-group {
   margin-bottom: 16px;
 }
 
-.footer-hotel-name {
-  font-size: 20px;
-  font-weight: 200;
-  letter-spacing: 0.4em;
-  margin-bottom: 4px;
-  text-indent: 0.4em;
-}
-
-.footer-hotel-en {
-  font-size: 10px;
+.ai-label {
+  display: block;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
   font-weight: 300;
-  letter-spacing: 0.25em;
-  color: rgba(255,255,255,0.35);
-  margin-bottom: 24px;
 }
 
-.footer-divider {
-  width: 30px;
-  height: 1px;
-  background: rgba(255,255,255,0.15);
-  margin-bottom: 24px;
+.ai-input {
+  width: 100%;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0;
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  font-family: var(--font-family);
+  outline: none;
+  transition: border-color 0.25s ease;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
-.footer-info {
+.ai-input:focus {
+  border-color: var(--accent);
+}
+
+.ai-input::placeholder {
+  color: rgba(255,255,255,0.2);
+}
+
+/* Select styling */
+.ai-select-wrap {
+  position: relative;
+}
+
+.ai-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  margin-top: -2px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid rgba(255,255,255,0.3);
+  pointer-events: none;
+}
+
+.ai-select-wrap select {
+  width: 100%;
+  padding: 10px 32px 10px 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0;
+  color: rgba(255,255,255,0.85);
+  font-size: 13px;
+  font-family: var(--font-family);
+  outline: none;
+  transition: border-color 0.25s ease;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.ai-select-wrap select:focus {
+  border-color: var(--accent);
+}
+
+/* Interest tags */
+.ai-tags {
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.footer-info-item {
+.ai-tag {
+  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: transparent;
+  color: rgba(255,255,255,0.45);
+  font-size: 11px;
+  font-family: var(--font-family);
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ai-tag.active {
+  border-color: var(--accent);
+  background: rgba(168,103,58,0.15);
+  color: var(--accent);
+}
+
+.ai-tag:active {
+  background: rgba(168,103,58,0.25);
+}
+
+/* Generate button */
+.ai-generate-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 12px;
-  font-weight: 300;
-  color: rgba(255,255,255,0.5);
-  letter-spacing: 0.05em;
-}
-
-.footer-info-item svg {
-  width: 14px; height: 14px;
-  stroke: rgba(255,255,255,0.3);
-  fill: none;
-  stroke-width: 1.5;
-}
-
-.footer-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 24px;
-  border: 1px solid rgba(255,255,255,0.15);
-  background: transparent;
-  color: rgba(255,255,255,0.7);
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  width: 100%;
+  padding: 12px 24px;
+  margin-top: 8px;
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 0.12em;
   font-family: var(--font-family);
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-weight: 400;
 }
 
-.footer-cta:active {
-  background: rgba(255,255,255,0.06);
-  border-color: var(--accent);
-  color: var(--accent);
+.ai-generate-btn:active {
+  background: var(--accent-hover);
 }
 
-.footer-cta svg {
-  width: 12px; height: 12px;
+.ai-generate-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.ai-generate-btn svg {
+  width: 16px; height: 16px;
   stroke: currentColor;
   fill: none;
   stroke-width: 1.5;
 }
 
-.footer-profile {
-  display: flex;
-  flex-direction: column;
+/* Loading state */
+.ai-loading {
+  display: none;
   align-items: center;
-  margin-bottom: 20px;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 0;
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+  letter-spacing: 0.08em;
 }
 
-.footer-avatar {
-  width: 52px; height: 52px;
+.ai-loading.show {
+  display: flex;
+}
+
+.ai-spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(255,255,255,0.08);
+  border-top-color: var(--accent);
   border-radius: 50%;
-  background: rgba(255,255,255,0.06);
+  animation: ai-spin 0.8s linear infinite;
+}
+
+@keyframes ai-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Results */
+.ai-result {
+  display: none;
+  margin-top: 16px;
+}
+
+.ai-result.show {
+  display: block;
+}
+
+.ai-day-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.ai-day-header {
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+}
+
+.ai-day-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 4px 0;
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+}
+
+.ai-day-item .ai-time {
+  flex-shrink: 0;
+  width: 36px;
+  color: rgba(255,255,255,0.25);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+}
+
+.ai-day-item .ai-activity {
+  flex: 1;
+}
+
+.ai-book-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 8px;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 24px;
+  margin-top: 4px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  font-family: var(--font-family);
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.footer-avatar svg {
-  width: 26px; height: 26px;
-  stroke: rgba(255,255,255,0.3);
+.ai-book-btn:active {
+  background: rgba(168,103,58,0.15);
+}
+
+.ai-book-btn svg {
+  width: 14px; height: 14px;
+  stroke: currentColor;
   fill: none;
-  stroke-width: 1.2;
+  stroke-width: 1.5;
 }
 
-.footer-profile h3 {
-  font-size: 15px;
+.ai-error {
+  display: none;
+  padding: 16px;
+  border: 1px solid rgba(255,80,80,0.2);
+  background: rgba(255,80,80,0.06);
+  color: rgba(255,255,255,0.6);
+  font-size: 12px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  margin-top: 16px;
+}
+
+.ai-error.show {
+  display: block;
+}
+
+.ai-intro {
+  text-align: center;
+  padding: 32px 16px;
+  color: rgba(255,255,255,0.25);
+  font-size: 12px;
   font-weight: 300;
-  letter-spacing: 0.15em;
-  margin-bottom: 2px;
-}
-
-.footer-profile .sub {
-  font-size: 10px;
-  color: rgba(255,255,255,0.35);
-  font-weight: 300;
-}
-
-.footer-nav-hint {
-  font-size: 10px;
-  color: rgba(255,255,255,0.2);
-  letter-spacing: 0.3em;
-  margin-top: 20px;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
 }
 
 /* ========== Background Variants ========== */
@@ -1567,41 +1732,69 @@ html, body {
       </div>
     </div>
 
-    <!-- Act 5: 落幕 · Footer -->
+    <!-- Act 5: AI 行前规划 -->
     <div class="act act-5" id="act-5">
-      <div class="act-content">
-        <div class="footer-profile">
-          <div class="footer-avatar">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-8 8-8s8 4 8 8"/></svg>
-          </div>
-          <h3>旅居者</h3>
-          <div class="sub">探索黄土之上的艺术之旅</div>
+      <div class="act-content" id="aiContent">
+        <div class="ai-header">
+          <h2>AI 行前规划</h2>
+          <div class="ai-sub">定制你的麻黄梁艺术之旅</div>
         </div>
 
-        <svg class="footer-brand-icon" viewBox="0 0 24 24">
-          <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
-        </svg>
-        <div class="footer-hotel-name">慢 境</div>
-        <div class="footer-hotel-en">Slow Realm Art Hotel</div>
-        <div class="footer-divider"></div>
+        <div class="ai-form-group">
+          <label class="ai-label">目的地</label>
+          <input class="ai-input" id="aiDest" value="麻黄梁地质公园" placeholder="输入目的地" readonly>
+        </div>
 
-        <div class="footer-info">
-          <div class="footer-info-item">
-            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            榆林 · 麻黄梁地质公园
-          </div>
-          <div class="footer-info-item">
-            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
-            0912 · 8888 6666
+        <div class="ai-form-group">
+          <label class="ai-label">旅行天数</label>
+          <div class="ai-select-wrap">
+            <select id="aiDays">
+              <option value="1">1天 · 当日往返</option>
+              <option value="2" selected>2天1夜 · 周末短途</option>
+              <option value="3">3天2夜 · 深度体验</option>
+              <option value="4">4天3夜 · 沉浸慢旅</option>
+              <option value="5">5天4夜 · 完全探索</option>
+            </select>
           </div>
         </div>
 
-        <button class="footer-cta" onclick="showToast('艺术家驻留计划 · 申请已提交')">
-          艺术家驻留计划 申请 →
-          <svg viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+        <div class="ai-form-group">
+          <label class="ai-label">兴趣偏好（可多选）</label>
+          <div class="ai-tags" id="aiTags">
+            <span class="ai-tag active" data-tag="photography">📷 摄影</span>
+            <span class="ai-tag" data-tag="hiking">🥾 徒步</span>
+            <span class="ai-tag" data-tag="art">🎨 艺术</span>
+            <span class="ai-tag" data-tag="food">🍜 美食</span>
+            <span class="ai-tag" data-tag="culture">🏛️ 人文</span>
+            <span class="ai-tag" data-tag="family">👨‍👩‍👧 亲子</span>
+            <span class="ai-tag" data-tag="relax">🧘 休闲</span>
+            <span class="ai-tag" data-tag="night">🌙 夜景</span>
+          </div>
+        </div>
+
+        <button class="ai-generate-btn" id="aiGenerateBtn" onclick="generateTrip()">
+          <svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
+          AI 生成行程
         </button>
 
-        <div class="footer-nav-hint">↓ 点击下方导航浏览各幕</div>
+        <div class="ai-loading" id="aiLoading">
+          <div class="ai-spinner"></div>
+          <span>AI 正在为你规划行程...</span>
+        </div>
+
+        <div class="ai-result" id="aiResult">
+          <div id="aiResultContent"></div>
+          <button class="ai-book-btn" onclick="goToAct(3)">
+            <svg viewBox="0 0 24 24"><path d="M12 2l9 7-3 12H6L3 9l9-7z"/></svg>
+            预订慢境酒店
+          </button>
+        </div>
+
+        <div class="ai-intro" id="aiIntro">
+          选择天数与兴趣偏好<br>让 AI 为你生成专属行程
+        </div>
+
+        <div class="ai-error" id="aiError"></div>
       </div>
     </div>
 
@@ -1671,8 +1864,8 @@ html, body {
       <span>活动</span>
     </div>
     <div class="nav-item" data-act="5" onclick="goToAct(5)">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-8 8-8s8 4 8 8"/></svg>
-      <span>我的</span>
+      <svg viewBox="0 0 24 24"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
+      <span>AI规划</span>
     </div>
   </nav>
 </div>
@@ -1779,76 +1972,8 @@ function updateCounter() {
   counter.textContent = `${num} / ${String(TOTAL_ACTS).padStart(2, '0')}`;
 }
 
-// ========== Wheel Navigation ==========
-let lastWheelTime = 0;
-document.getElementById('actsContainer').addEventListener('wheel', e => {
-  const now = Date.now();
-  if (now - lastWheelTime < 900) return;
-  if (isTransitioning) return;
-
-  if (e.deltaY > 25) {
-    if (currentAct === 0 || currentAct === 1 || currentAct === 2 || currentAct === 4) return;
-    goToAct(currentAct + 1);
-    lastWheelTime = now;
-  } else if (e.deltaY < -25) {
-    if (currentAct === 1 || currentAct === 4) return;
-    goToAct(currentAct - 1);
-    lastWheelTime = now;
-  }
-}, { passive: true });
-
-// ========== Touch Swipe (vertical → act switch) ==========
-let touchStartY = 0;
-let touchStartX = 0;
-let touchStartTime = 0;
-let touchIsVertical = false;
-
-document.getElementById('actsContainer').addEventListener('touchstart', e => {
-  if (e.touches.length !== 1) return;
-  touchStartY = e.touches[0].clientY;
-  touchStartX = e.touches[0].clientX;
-  touchStartTime = Date.now();
-  touchIsVertical = false;
-}, { passive: true });
-
-document.getElementById('actsContainer').addEventListener('touchmove', e => {
-  if (e.touches.length !== 1 || !touchStartY) return;
-  const dy = Math.abs(e.touches[0].clientY - touchStartY);
-  const dx = Math.abs(e.touches[0].clientX - touchStartX);
-  if (dy > 20 && dy > dx * 1.2) {
-    touchIsVertical = true;
-  }
-}, { passive: true });
-
-document.getElementById('actsContainer').addEventListener('touchend', e => {
-  if (!touchIsVertical) return;
-  const dy = e.changedTouches[0].clientY - touchStartY;
-  const elapsed = Date.now() - touchStartTime;
-  if (isTransitioning) return;
-
-  if (dy < -120 || (dy < -60 && elapsed < 300)) {
-    if (currentAct === 0 || currentAct === 1 || currentAct === 2 || currentAct === 4) return;
-    goToAct(currentAct + 1);
-    touchIsVertical = false;
-  } else if (dy > 120 || (dy > 60 && elapsed < 300)) {
-    if (currentAct === 1 || currentAct === 4) return;
-    goToAct(currentAct - 1);
-    touchIsVertical = false;
-  }
-}, { passive: true });
-
-// ========== Keyboard Navigation ==========
-document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-    if (currentAct === 0 || currentAct === 1 || currentAct === 2 || currentAct === 4) return; // 首页/路线/艺术/活动禁止跳转
-    e.preventDefault();
-    goToAct(currentAct + 1);
-  } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-    if (currentAct === 1 || currentAct === 4) return;
-    e.preventDefault();
-    goToAct(currentAct - 1);
-  }
-});
+// ========== Route: Fullscreen Card Swipe (Apple-style) ==========
+const routeDataA = [
 
 // ========== Route: Fullscreen Card Swipe (Apple-style) ==========
 const routeDataA = [
@@ -2194,17 +2319,118 @@ function confirmBooking() {
   showToast(`已预订「${bookingRoomName}」${checkIn} 入住 · ${guestCount}人`);
 }
 
-function showToast(msg) {
+function showToast(msg, type) {
+  const isError = type === 'error';
   document.querySelectorAll('.toast').forEach(t => t.remove());
   const toast = document.createElement('div');
   toast.className = 'toast';
-  toast.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><span>${msg}</span>`;
+  if (isError) {
+    toast.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span>${msg}</span>`;
+    toast.style.background = 'rgba(180,60,40,0.95)';
+  } else {
+    toast.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg><span>${msg}</span>`;
+  }
   document.body.appendChild(toast);
   requestAnimationFrame(() => toast.classList.add('show'));
   setTimeout(() => {
     toast.classList.remove('show');
     setTimeout(() => toast.remove(), 400);
   }, 2500);
+}
+
+// ========== AI 行前规划 ==========
+
+// 兴趣标签切换
+document.getElementById('aiTags').addEventListener('click', function(e) {
+  const tag = e.target.closest('.ai-tag');
+  if (tag) tag.classList.toggle('active');
+});
+
+// 获取选中的兴趣标签
+function getSelectedInterests() {
+  return Array.from(document.querySelectorAll('#aiTags .ai-tag.active'))
+    .map(el => el.dataset.tag);
+}
+
+// AI 生成行程
+async function generateTrip() {
+  const btn = document.getElementById('aiGenerateBtn');
+  const loading = document.getElementById('aiLoading');
+  const result = document.getElementById('aiResult');
+  const intro = document.getElementById('aiIntro');
+  const errorEl = document.getElementById('aiError');
+
+  btn.disabled = true;
+  loading.classList.add('show');
+  result.classList.remove('show');
+  errorEl.classList.remove('show');
+  intro.style.display = 'none';
+
+  const params = {
+    destination: document.getElementById('aiDest').value || '麻黄梁',
+    days: parseInt(document.getElementById('aiDays').value, 10),
+    interests: getSelectedInterests(),
+  };
+
+  try {
+    const resp = await fetch('/api/generate-trip', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(params),
+    });
+    const json = await resp.json();
+
+    if (!json.ok) {
+      throw new Error(json.error || '生成失败，请稍后重试');
+    }
+
+    if (json.data.rawText) {
+      renderRawText(json.data.rawText);
+    } else if (json.data.days) {
+      renderTripResult(json.data, json.demo);
+    }
+    result.classList.add('show');
+  } catch (err) {
+    errorEl.textContent = err.message || '网络错误，请检查连接后重试';
+    errorEl.classList.add('show');
+    intro.style.display = 'block';
+    showToast(err.message, 'error');
+  } finally {
+    loading.classList.remove('show');
+    btn.disabled = false;
+  }
+}
+
+// 渲染结构化行程结果
+function renderTripResult(data, isDemo) {
+  const container = document.getElementById('aiResultContent');
+  const labels = { photography:'摄影', hiking:'徒步', art:'艺术', food:'美食', culture:'人文', family:'亲子', relax:'休闲', night:'夜景' };
+  const interests = getSelectedInterests().map(i => labels[i] || i).join(' · ');
+
+  let html = `<div style="font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:0.08em;margin-bottom:12px;text-align:center;">
+    ${isDemo ? '📋 示例行程 · ' : '✨ AI 生成 · '}${interests || '综合体验'}
+  </div>`;
+
+  data.days.forEach(day => {
+    html += `<div class="ai-day-card">
+      <div class="ai-day-header">Day ${day.dayNum}</div>`;
+    day.items.forEach(item => {
+      html += `<div class="ai-day-item">
+        <span class="ai-time">${item.time}</span>
+        <span class="ai-activity">${item.activity}</span>
+      </div>`;
+    });
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+// 渲染 AI 返回的纯文本（JSON 解析失败时的 fallback）
+function renderRawText(text) {
+  const container = document.getElementById('aiResultContent');
+  container.innerHTML = `<div style="font-size:10px;color:rgba(255,255,255,0.25);letter-spacing:0.08em;margin-bottom:12px;text-align:center;">✨ AI 生成</div>
+    <div class="ai-day-card"><pre style="white-space:pre-wrap;font-size:12px;color:rgba(255,255,255,0.75);line-height:1.6;margin:0;">${text}</pre></div>`;
 }
 
 // ========== Init ==========
