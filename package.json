@@ -1,0 +1,11 @@
+{
+  "name": "manjing-hotel",
+  "version": "2.0.0",
+  "private": true,
+  "engines": {
+    "node": "20.x"
+  },
+  "dependencies": {
+    "sharp": "^0.35.3"
+  }
+}
